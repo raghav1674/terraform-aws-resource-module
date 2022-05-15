@@ -1,5 +1,5 @@
 module "sqs" {
-  source                  = "../resources/sqs/standard"
+  source                  = "../resources/combined_sqs"
   name                    = "testqueue"
   sqs_managed_sse_enabled = true
   environment             = "dev"
