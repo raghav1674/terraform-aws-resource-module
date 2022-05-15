@@ -24,18 +24,18 @@ variable "healthy_threshold" {
 
 }
 
-variable "health_check_internal" {
+variable "health_check_interval" {
   type        = number
   description = "Frequency of Health checks"
 }
 
 variable "health_check_protocol" {
-  type        = number
+  type        = string
   description = "Protocol on which to do the health checks"
 }
 
 variable "health_check_status_code_range" {
-  type        = number
+  type        = string
   description = "Port on which to do the health checks"
 }
 
@@ -45,18 +45,13 @@ variable "health_check_timeout" {
 }
 
 variable "health_check_path" {
-  type        = number
-  description = "Protocol on which to do the health checks"
+  type        = string
+  description = "Health check path"
 }
 
 variable "unhealthy_threshold" {
   type        = number
   description = "Number of health checks to fail to be considered as unhealthy"
-}
-
-variable "listener_arn" {
-  type        = string
-  description = "ARN of the listener to which to attach the target group with load balancer"
 }
 
 variable "listener_rule_priority" {
@@ -67,6 +62,11 @@ variable "listener_rule_priority" {
 variable "listener_path_pattern" {
   type        = string
   description = "Path or endpoint on which the listener will be available"
+}
+
+variable "lb_listener_arn" {
+  type = string 
+  description = "ARN of the listener"
 }
 
 variable "environment" {

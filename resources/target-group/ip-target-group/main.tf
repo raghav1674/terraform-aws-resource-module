@@ -8,7 +8,7 @@ resource "aws_lb_target_group" "this" {
 
   health_check {
     healthy_threshold   = var.healthy_threshold
-    interval            = var.health_check_internal
+    interval            = var.health_check_interval
     protocol            = var.health_check_protocol
     matcher             = var.health_check_status_code_range
     timeout             = var.health_check_timeout

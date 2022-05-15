@@ -4,12 +4,12 @@ resource "aws_lb_listener_rule" "this" {
 
   action {
     type             = "forward"
-    target_group_arn = aws_alb_target_group.this.arn
-
-    condition {
-      path_pattern {
-        values = var.listener_path_pattern
-      }
+    target_group_arn = aws_lb_target_group.this.arn
+  }
+  condition {
+    path_pattern {
+      values = [var.listener_path_pattern]
     }
   }
 }
+
