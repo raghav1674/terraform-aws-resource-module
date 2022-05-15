@@ -41,10 +41,10 @@ variable "certificate_arn" {
   description = "ACM Certificate ARN"
 }
 
-variable "default_target_group_arn" {
-  type        = string
-  description = "ARN of the target group for default action"
-}
+# variable "default_target_group_arn" {
+#   type        = string
+#   description = "ARN of the target group for default action"
+# }
 
 variable "environment" {
   type        = string
