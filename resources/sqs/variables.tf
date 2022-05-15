@@ -49,14 +49,14 @@ variable "redrive_policy" {
 # fifo config variables
 
 variable "fifo_queue" {
-  type = bool 
+  type        = bool
   description = "Whether the queue to be created is fifo queue or not"
-  default = false
+  default     = false
 }
 variable "content_based_deduplication" {
   type        = bool
   description = "Enables content-based deduplication for FIFO queues"
-  default = false
+  default     = false
 }
 
 variable "fifo_throughput_limit" {

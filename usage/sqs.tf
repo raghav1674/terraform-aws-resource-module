@@ -1,7 +1,7 @@
 module "sqs" {
-  
+
   source                  = "../resources/sqs"
-  fifo_queue              = true 
+  fifo_queue              = true
   name                    = "testqueue.fifo"
   sqs_managed_sse_enabled = true
   environment             = "dev"

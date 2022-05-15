@@ -6,6 +6,6 @@ output "id" {
   value = aws_sqs_queue.this.id
 }
 
-output "name"{
+output "name" {
   value = aws_sqs_queue.this.name
 }

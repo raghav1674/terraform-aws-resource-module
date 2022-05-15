@@ -3,7 +3,7 @@ resource "aws_sqs_queue" "this" {
 
   # fifo related config
   fifo_queue                  = var.fifo_queue
-  content_based_deduplication = var.fifo_queue ? var.content_based_deduplication: null
+  content_based_deduplication = var.fifo_queue ? var.content_based_deduplication : null
   deduplication_scope         = var.fifo_queue ? var.deduplication_scope : null
   fifo_throughput_limit       = var.fifo_queue ? var.fifo_throughput_limit : null
 

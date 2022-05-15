@@ -20,34 +20,33 @@ variable "subnets" {
 }
 
 variable "enable_deletion_protection" {
-  type = bool
+  type        = bool
   description = "Whether to enable deletion protection or not"
-  default = false
+  default     = false
 }
 
 
 variable "listener_port" {
-  type = number 
+  type        = number
   description = "ALB Listener Port"
 }
 
 variable "listener_protocol" {
-  type = string 
+  type        = string
   description = "ALB Listener Protocol"
 }
 
 variable "certificate_arn" {
-  type = string 
+  type        = string
   description = "ACM Certificate ARN"
 }
 
 variable "default_target_group_arn" {
-  type = string 
+  type        = string
   description = "ARN of the target group for default action"
 }
 
 variable "environment" {
-  type = string
+  type        = string
   description = "Environment"
-  
 }
