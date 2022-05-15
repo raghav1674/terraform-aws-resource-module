@@ -1,6 +1,8 @@
 module "sqs" {
-  source                  = "../resources/combined_sqs"
-  name                    = "testqueue"
+  
+  source                  = "../resources/sqs"
+  fifo_queue              = true 
+  name                    = "testqueue.fifo"
   sqs_managed_sse_enabled = true
   environment             = "dev"
   queue_iam_access_policy = <<EOT
