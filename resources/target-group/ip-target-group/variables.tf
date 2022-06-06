@@ -65,11 +65,12 @@ variable "listener_path_pattern" {
 }
 
 variable "lb_listener_arn" {
-  type = string 
+  type        = string
   description = "ARN of the listener"
 }
 
-variable "environment" {
-  type        = string
-  description = "Environment"
+variable "tags" {
+  type        = map(string)
+  description = "Tags for the Resources"
+  default     = {}
 }

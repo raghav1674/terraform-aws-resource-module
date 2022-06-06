@@ -16,7 +16,5 @@ resource "aws_lb_target_group" "this" {
     unhealthy_threshold = var.unhealthy_threshold
   }
 
-  tags = {
-    Environment = var.environment
-  }
+  tags = var.tags
 }

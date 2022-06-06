@@ -1,8 +1,8 @@
 resource "aws_lambda_function" "this" {
   count = var.create_function
 
-  function_name                  = var.function_name
-  description                    = var.description
+  function_name = var.function_name
+  description   = var.description
 
   role                           = var.lambda_role
   handler                        = var.package_type != "Zip" ? null : var.handler
@@ -85,13 +85,13 @@ resource "aws_lambda_function" "this" {
 
 
 data "aws_cloudwatch_log_group" "lambda" {
-  count =  var.create_function  && var.use_existing_cloudwatch_log_group ? 1 : 0
+  count = var.create_function && var.use_existing_cloudwatch_log_group ? 1 : 0
 
   name = "/aws/lambda/${var.function_name}"
 }
 
 resource "aws_cloudwatch_log_group" "lambda" {
-  count =  var.create_function  && !var.use_existing_cloudwatch_log_group ? 1 : 0
+  count = var.create_function && !var.use_existing_cloudwatch_log_group ? 1 : 0
 
   name              = "/aws/lambda/${var.function_name}"
   retention_in_days = var.cloudwatch_logs_retention_in_days
@@ -101,7 +101,7 @@ resource "aws_cloudwatch_log_group" "lambda" {
 }
 
 resource "aws_lambda_provisioned_concurrency_config" "current_version" {
-  count =  var.create_function  && var.provisioned_concurrent_executions > -1 ? 1 : 0
+  count = var.create_function && var.provisioned_concurrent_executions > -1 ? 1 : 0
 
   function_name = aws_lambda_function.this[0].function_name
   qualifier     = aws_lambda_function.this[0].version

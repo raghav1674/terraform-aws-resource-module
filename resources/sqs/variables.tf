@@ -98,8 +98,8 @@ variable "kms_data_key_reuse_period_seconds" {
   default     = 300
 }
 
-
-variable "environment" {
-  type        = string
-  description = "Environment"
+variable "tags" {
+  type        = map(string)
+  description = "Tags for the Resources"
+  default     = {}
 }

@@ -21,7 +21,5 @@ resource "aws_sqs_queue" "this" {
   kms_master_key_id                 = var.kms_master_key_id
   kms_data_key_reuse_period_seconds = var.kms_data_key_reuse_period_seconds
 
-  tags = {
-    Environment = var.environment
-  }
+  tags = var.tags
 }
