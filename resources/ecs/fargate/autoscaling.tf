@@ -1,6 +1,6 @@
 resource "aws_appautoscaling_target" "ecs_target" {
 
-  count              = var.autoscaling_enabled
+  count              = var.autoscaling_enabled ? 1: 0
   max_capacity       = var.autoscaling_max_capacity
   min_capacity       = var.autoscaling_min_capacity
   resource_id        = "service/${aws_ecs_cluster.this.name}/${aws_ecs_service.this.name}"
@@ -10,7 +10,7 @@ resource "aws_appautoscaling_target" "ecs_target" {
 
 
 resource "aws_appautoscaling_policy" "ecs_policy_memory" {
-  count              = var.autoscaling_enabled
+  count              = var.autoscaling_enabled  ? 1: 0
   name               = "memory-autoscaling"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.ecs_target.resource_id
@@ -29,7 +29,7 @@ resource "aws_appautoscaling_policy" "ecs_policy_memory" {
 }
 
 resource "aws_appautoscaling_policy" "ecs_policy_cpu" {
-  count              = var.autoscaling_enabled
+  count              = var.autoscaling_enabled  ? 1: 0
   name               = "cpu-autoscaling"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.ecs_target.resource_id
