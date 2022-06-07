@@ -156,3 +156,9 @@ variable "tags" {
   description = "Tags for the Resources"
   default     = {}
 }
+
+variable "enable_loadbalancing" {
+  type = bool
+  description = "Whether to enable alb or not"
+  default = false 
+}
