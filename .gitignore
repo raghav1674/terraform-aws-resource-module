@@ -1,4 +1,3 @@
 **/*.tfstate
 **/*.backup
 **/*.terraform/
-temp/
