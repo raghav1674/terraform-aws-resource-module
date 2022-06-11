@@ -1,4 +1,4 @@
-variable "ecr_reposistory_name" {
+variable "ecr_repository_name" {
   type        = string
   description = "Name of the ecr repository"
 }
@@ -38,4 +38,10 @@ variable "aws_ecr_repository_policy_document" {
   type        = string
   description = "The JSON Policy to be attached to the repository"
   default     = null
+}
+
+variable "tags" {
+  type = map(string)
+  description = "Tags for all resources"
+  default = {}
 }

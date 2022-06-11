@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "this" {
-  name                 = var.ecr_reposistory_name
+  name                 = var.ecr_repository_name
   image_tag_mutability = var.image_tag_mutability
 
   image_scanning_configuration {
@@ -10,4 +10,5 @@ resource "aws_ecr_repository" "this" {
     encryption_type = var.encryption_type
     kms_key         = var.kms_key
   }
+  tags =  var.tags
 }
