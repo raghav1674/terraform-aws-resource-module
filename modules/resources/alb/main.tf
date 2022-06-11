@@ -7,11 +7,14 @@ resource "aws_lb" "this" {
 
   enable_deletion_protection = var.enable_deletion_protection
 
-  access_logs {
-    bucket  = var.access_log_bucket.name
-    prefix  = var.access_log_bucket.prefix
-    enabled = var.enable_access_logs
+  dynamic "access_logs" {
+    
+    for_each = var.access_log_buckets
+    content {
+      bucket  = access_logs.value["bucket_name"]
+      prefix  = access_logs.value["bucket_prefix"]
+      enabled = var.enable_access_logs
+    }
   }
-
   tags = var.tags
 }

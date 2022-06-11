@@ -46,16 +46,13 @@ variable "tags" {
   description = "Tags for all the resources"
 }
 
-variable "access_log_bucket" {
-  type = object({
-    name   = string
-    prefix = string
-  })
+variable "access_log_buckets" {
+  type = list(object({
+    bucket_name   = string
+    bucket_prefix = string
+  }))
   description = "Alb access log bucket name and prefix"
-  default = {
-    name   = null
-    prefix = null
-  }
+  default = []
 }
 
 variable "enable_access_logs" {
