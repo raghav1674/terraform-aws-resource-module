@@ -8,7 +8,7 @@ resource "aws_lb_listener_rule" "this" {
   }
   condition {
     path_pattern {
-      values = [var.listener_path_pattern]
+      values = var.listener_path_patterns
     }
   }
 }

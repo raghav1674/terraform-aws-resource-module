@@ -59,9 +59,9 @@ variable "listener_rule_priority" {
   description = "Priority of the listener rule"
 }
 
-variable "listener_path_pattern" {
-  type        = string
-  description = "Path or endpoint on which the listener will be available"
+variable "listener_path_patterns" {
+  type        = list(string)
+  description = "List of Path on which the tg will be available"
 }
 
 variable "lb_listener_arn" {
