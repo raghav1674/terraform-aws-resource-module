@@ -10,5 +10,5 @@ resource "aws_ecr_repository" "this" {
     encryption_type = var.encryption_type
     kms_key         = var.kms_key
   }
-  tags =  var.tags
+  tags = var.tags
 }

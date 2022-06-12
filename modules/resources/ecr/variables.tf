@@ -41,7 +41,7 @@ variable "aws_ecr_repository_policy_document" {
 }
 
 variable "tags" {
-  type = map(string)
+  type        = map(string)
   description = "Tags for all resources"
-  default = {}
+  default     = {}
 }

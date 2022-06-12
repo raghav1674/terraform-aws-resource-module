@@ -52,7 +52,7 @@ variable "access_log_buckets" {
     bucket_prefix = string
   }))
   description = "Alb access log bucket name and prefix"
-  default = []
+  default     = []
 }
 
 variable "enable_access_logs" {

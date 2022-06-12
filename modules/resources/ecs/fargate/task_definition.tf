@@ -11,6 +11,7 @@ resource "aws_ecs_task_definition" "this" {
     image       = var.container_image
     essential   = true
     environment = var.container_environment_variables
+    secrets     = var.secrets
     portMappings = [{
       protocol      = "tcp"
       containerPort = var.container_port

@@ -1,0 +1,37 @@
+name: ECS Deployment 
+
+on: 
+  workflow_dispatch: 
+
+jobs:
+  deploy_to_qa:
+    uses: ./.github/workflows/deploy_template.yaml 
+    with: 
+      region: ""
+      env_name: ""
+      ecr_repository_name: ""
+      image_tag: ${{ github.sha }}
+      ecs_task_defintion_name: ""
+      ecs_container_name: ""
+      ecs_service_name: ""
+      ecs_cluster_name: ""
+    secrets:
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      ROLE_SESSION_NAME: ${{ secrets.ROLE_SESSION_NAME }}
+  
+  deploy_to_prod:
+    needs: [deploy_to_qa]
+    uses: ./.github/workflows/deploy_template.yaml 
+    with: 
+      region: ""
+      env_name: ""
+      ecr_repository_name: ""
+      image_tag: ${{ github.sha }}
+      ecs_task_defintion_name: ""
+      ecs_container_name: ""
+      ecs_service_name: ""
+      ecs_cluster_name: ""
+    secrets:
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      ROLE_SESSION_NAME: ${{ secrets.ROLE_SESSION_NAME }}
+

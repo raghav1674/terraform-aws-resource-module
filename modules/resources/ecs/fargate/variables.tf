@@ -158,7 +158,7 @@ variable "tags" {
 }
 
 variable "enable_loadbalancing" {
-  type = bool
+  type        = bool
   description = "Whether to enable alb or not"
-  default = false 
+  default     = false
 }
