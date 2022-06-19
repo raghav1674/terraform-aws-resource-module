@@ -1,6 +1,13 @@
+variable "create_kms_key" {
+  type = bool 
+  description = "Whether to create kms key for use with sops encryption or not"
+  default = false
+}
+
 variable "description" {
   type        = string
   description = "Description for KMS Key"
+  default = ""
 }
 
 variable "deletion_window_in_days" {
