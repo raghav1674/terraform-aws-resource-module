@@ -16,5 +16,5 @@ resource "aws_lambda_function" "this" {
   handler          = var.handler
   source_code_hash = filebase64sha256("${path.root}/files/${local.file_basename}.zip")
   runtime          = var.runtime
-
+  tags = var.tags 
 }

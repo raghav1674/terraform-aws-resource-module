@@ -72,3 +72,9 @@ variable "create_lambda_url" {
     description = "Whether to create lambda url or not"
     default = false
 }
+
+variable "tags" {
+    type = map(string)
+    description = "Tags for all resources"
+    default = {}
+}
