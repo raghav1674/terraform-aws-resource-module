@@ -1,0 +1,5 @@
+---
+include:
+  - CUS002
+  - aws-s3-enable-versioning
+
