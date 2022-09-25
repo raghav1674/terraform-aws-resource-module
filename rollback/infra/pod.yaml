@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s3-echoer
+spec:
+  serviceAccountName: s3-echoer
+  containers:
+  - name: main
+    image: raggupta/ecs-manager:v1
+    command:
+    - "sh"
+    - "-c"
+    - "sleep infinity"
+    env:
+    - name: AWS_DEFAULT_REGION
+      value: "us-east-1"
+    imagePullPolicy: Always
+    resources: {}
