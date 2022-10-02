@@ -93,11 +93,7 @@ class EcsManager():
                         {'Key': 'serviceName','Values': [service_name]},
                         {'Key': 'clusterName','Values':[cluster_name]},
                     ])
-
-            if last_successfull_task_definition_arn is None:
-                logger.warning(blue(f'No successfully deployed task definition found for the service {service_name}'))
-                logger.error(red('Exiting... Cannot rollback as there is no healhy task definition found.'))
-                return      
+   
 
             if last_successfull_task_definition_arn == current_task_definition_arn:
                 logger.info(green(f'Currently running task definition {last_successfull_task_definition_arn} is healthy'))
@@ -127,6 +123,11 @@ class EcsManager():
                 logger.info(blue(f'Waiting for the tasks to be up with the current task definition {current_task_definition_arn}'))
                 sleep(counter * 1)
                 counter+=1
+            
+            if last_successfull_task_definition_arn is None:
+                logger.warning(blue(f'No successfully deployed task definition found for the service {service_name}'))
+                logger.error(red('Exiting... Cannot rollback as there is no healhy task definition found.'))
+                return   
 
             logger.info(red(f'Tasks looks unhealthy with the current task definition {current_task_definition_arn}. Rollback to last healthy version {last_successfull_task_definition_arn}'))
             self.ecs_client.update_service(cluster=cluster_name,service=service_name,taskDefinition=last_successfull_task_definition_arn)
@@ -179,5 +180,5 @@ if __name__ == '__main__':
             logger.info(blue(f'Trying to find the task definition with the given image tag {args["app_image_tag"]}'))
             ecs.update_service_with_given_task_definition(cluster_name,service_name,args['app_image_tag'])
 
-    logger.info(blue(f'Starting to perform health check for atmost {args["wait_time"]+20} seconds'))
+    logger.info(blue(f'Starting to perform health check for atmost {int(args["wait_time"])+20} seconds'))
     ecs.reconcile(cluster_name,service_name,int(args['wait_time']))

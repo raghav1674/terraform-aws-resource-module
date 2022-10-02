@@ -8,4 +8,4 @@ def red(text):
 def green(text):
     return colored(20,230,5,f'Success::{datetime.now()}:: {text}')
 def blue(text):
-    return colored(20,5,230,f'Info::{datetime.now()}:: {text}')
+    return colored(135,206,235,f'Info::{datetime.now()}:: {text}')
