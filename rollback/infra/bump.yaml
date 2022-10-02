@@ -1,0 +1,39 @@
+
+jobs:
+    build:
+        steps:
+        - name: generate tag 
+          id: gentag
+          run: |
+            BASE_VERSION="0.1"
+            PATCH_NUMBER=$(git tag -l "v${BASE_VERSION}" | wc -l|xargs)
+            NEXT_VERSION="v${BASE_VERSION}.${PATCH_NUMBER}"
+            echo ::set-output name=tag::${NEXT_VERSION}
+
+        - name: build and push the image 
+          run: |
+            docker build . -t  :${{ steps.gentag.outputs.tag }}
+            docker push  :${{ steps.gentag.outputs.tag }}
+        
+        outputs:
+            tag: ${{ steps.gentag.outputs.tag }}
+    release:
+        steps:
+        - name: release a new tag 
+          run: |
+            last_tag=$(git rev-list --tags --max-count=1)
+            if [[ -z "$last_tag" ]]
+            then
+                message="Initial Version of the app"
+            else
+                previous_tag=$(git describe --tags $last_tag)
+                message="$(git log --invert-grep --grep="terraform" --grep="tflint" --grep="pipeline" --pretty=format:"%s" $previous_tag...HEAD)"
+                if [[ -z "$message" ]]
+                    then
+                        message="$NEXT_VERSION is released"
+                fi
+            fi
+            git tag -a ${{ jobs.build.outputs.tag }} -m"$message"
+
+        
+    

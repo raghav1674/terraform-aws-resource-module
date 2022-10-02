@@ -1,0 +1,96 @@
+name: External API deployment
+
+on:
+  workflow_dispatch:
+
+env:
+  SERVICE_NAME: test-service
+  AWS_REGION: eu-west-1  
+  ECR_REPOSITORY: test-cluster
+
+jobs:
+  
+  build:
+    runs-on:  
+      - repo-test
+    steps:
+      # Prequesites: Install and setup the environment
+      - name: Install node needed by terraform plan setup action 
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      
+      - name: Sops Binary Installer
+        uses: mdgreenwald/mozilla-sops-action@v1.2.0
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v1
+        id: login-ecr
+
+      # Checkout the current repository & the infra repository
+      - name: Checkout current repo
+        uses: actions/checkout@v3 
+        
+      - name: Checkout private path
+        uses: actions/checkout@v3
+        with:
+          repository: main-infrastructure
+          token: ${{secrets.INFRA_GITHUB_PAT}}
+          path: infra
+      
+      - name: generate tag 
+        id: gentag
+        run: |
+          BASE_VERSION="0.1"
+          PATCH_NUMBER=$(git tag -l "v${BASE_VERSION}.*" | wc -l|xargs)
+          NEXT_VERSION="v${BASE_VERSION}.${PATCH_NUMBER}"
+          echo ::set-output name=tag::${NEXT_VERSION}
+
+      - name: Build Docker image, tag and push to ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:${{ steps.gentag.outputs.tag }} .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ steps.gentag.outputs.tag }}
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:${{ steps.gentag.outputs.tag }}"  
+
+      - name: Terraform plan    
+        run: | 
+          export TF_VAR_container_tag=${{ steps.gentag.outputs.tag }}
+          # make plan 
+
+      - name: Terraform apply 
+        run: |
+          export TF_VAR_container_tag=${{ steps.gentag.outputs.tag }}
+          # make apply 
+
+      - name: Run rollback script 
+        run: |
+          docker run --rm -it raggupta/ecs-manager:v1 rollback --region=${AWS_REGION} --service ${SERVICE_NAME} --cluster ${CLUSTER_NAME} --max-wait-count=50
+
+    outputs:
+      tag: ${{ steps.gentag.outputs.tag }}
+    
+    release:
+        needs: 
+          - build
+        steps:
+        - name: Release a new tag 
+          run: |
+            last_tag=$(git rev-list --tags --max-count=1)
+            if [[ -z "$last_tag" ]]
+            then
+                message="Initial Version of the app"
+            else
+                previous_tag=$(git describe --tags $last_tag)
+                message="$(git log --invert-grep --grep="terraform" --grep="pipeline" --pretty=format:"%s" $previous_tag...HEAD)"
+                if [[ -z "$message" ]]
+                    then
+                        message="$NEXT_VERSION is released"
+                fi
+            fi
+            git tag -a ${{ jobs.build.outputs.tag }} -m"$message"

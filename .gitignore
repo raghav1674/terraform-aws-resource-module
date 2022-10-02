@@ -1,3 +1,5 @@
 **/*.tfstate
 **/*.backup
 **/*.terraform/
+.DS_Store
+**/*.zip
